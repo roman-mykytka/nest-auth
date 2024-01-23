@@ -13,10 +13,9 @@ const environmentValidationSchema = Joi.object({
     'string.base': EnvironmentValidationMessage.DB_TYPE_STRING,
     'any.required': EnvironmentValidationMessage.DB_TYPE_REQUIRE,
   }),
-  DB_HOST: Joi.string().required().ip().messages({
+  DB_HOST: Joi.string().required().messages({
     'string.base': EnvironmentValidationMessage.DB_HOST_REQUIRED,
     'any.required': EnvironmentValidationMessage.DB_HOST_REQUIRED,
-    'string.ip': EnvironmentValidationMessage.DB_HOST_IP,
   }),
   DB_PORT: Joi.number().required().messages({
     'number.base': EnvironmentValidationMessage.DB_PORT_REQUIRED,
