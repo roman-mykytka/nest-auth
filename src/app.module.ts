@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { SharedModule } from './shared/shared.module';
-import { UserModule } from './modules/user/user.module';
-import { EnvironmentService } from './shared/services/environment.service';
 import {
   configuration,
   validationSchema,
 } from './config/environment/environment';
+import { EnvironmentService } from './shared/services/environment.service';
+
+import { SharedModule } from './shared/shared.module';
+import { UserModule } from './modules/user/user.module';
+import { RoleModule } from './modules/role/role.module';
 
 @Module({
   imports: [
@@ -26,8 +26,7 @@ import {
       inject: [EnvironmentService],
     }),
     UserModule,
+    RoleModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
