@@ -10,6 +10,7 @@ import { EnvironmentService } from '@shared/services/environment.service';
 import { SharedModule } from '@shared/shared.module';
 import { UserModule } from '@/modules/user/user.module';
 import { RoleModule } from '@/modules/role/role.module';
+import { AuthModule } from '@modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { RoleModule } from '@/modules/role/role.module';
     }),
     UserModule,
     RoleModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
