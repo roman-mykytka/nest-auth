@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { EnvironmentService } from './services/environment.service';
+import { EnvironmentService } from '@shared/services/environment.service';
 
 @Module({
   providers: [EnvironmentService],

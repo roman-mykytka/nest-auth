@@ -4,12 +4,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   configuration,
   validationSchema,
-} from './config/environment/environment';
-import { EnvironmentService } from './shared/services/environment.service';
+} from '@/config/environment/environment';
+import { EnvironmentService } from '@shared/services/environment.service';
 
-import { SharedModule } from './shared/shared.module';
-import { UserModule } from './modules/user/user.module';
-import { RoleModule } from './modules/role/role.module';
+import { SharedModule } from '@shared/shared.module';
+import { UserModule } from '@/modules/user/user.module';
+import { RoleModule } from '@/modules/role/role.module';
 
 @Module({
   imports: [
