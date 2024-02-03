@@ -33,6 +33,27 @@ const environmentValidationSchema = Joi.object({
     'string.base': EnvironmentValidationMessage.DB_NAME_STRING,
     'any.required': EnvironmentValidationMessage.DB_NAME_REQUIRED,
   }),
+  USER_PASSWORD_SALT_ROUNDS: Joi.number().required().min(3).messages({
+    'number.base':
+      EnvironmentValidationMessage.USER_PASSWORD_SALT_ROUNDS_NUMBER,
+    'any.required':
+      EnvironmentValidationMessage.USER_PASSWORD_SALT_ROUNDS_REQUIRED,
+    'number.min': EnvironmentValidationMessage.USER_PASSWORD_SALT_ROUNDS_MIN,
+  }),
+  JWT_ACCESS_SECRET: Joi.string().required().messages({
+    'string.base': EnvironmentValidationMessage.JWT_ACCESS_SECRET_STRING,
+    'any.required': EnvironmentValidationMessage.JWT_ACCESS_SECRET_REQUIRED,
+  }),
+  JWT_ACCESS_EXPIRES_IN: Joi.required().messages({
+    'any.required': EnvironmentValidationMessage.JWT_ACCESS_EXPIRES_IN_REQUIRED,
+  }),
+  JWT_REFRESH_SECRET: Joi.string().required().messages({
+    'string.base': EnvironmentValidationMessage.JWT_REFRESH_SECRET_STRING,
+    'any.required': EnvironmentValidationMessage.JWT_REFRESH_SECRET_REQUIRED,
+  }),
+  JWT_REFRESH_EXPIRES_IN: Joi.required().messages({
+    'any.required': EnvironmentValidationMessage.JWT_ACCESS_EXPIRES_IN_REQUIRED,
+  }),
 });
 
 export { environmentValidationSchema };

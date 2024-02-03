@@ -1,7 +1,15 @@
-import { Column, Entity, Index, JoinTable, ManyToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+} from 'typeorm';
 import { AbstractEntity } from '@database/abstract.entity';
 import { Role } from '@modules/role/entities/role.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { RefreshToken } from '@modules/auth/entities/refresh-token.entity';
 
 @Entity('user')
 export class User extends AbstractEntity {
@@ -18,9 +26,19 @@ export class User extends AbstractEntity {
   @Index({ unique: true })
   email: string;
 
-  @ApiProperty({ example: 'password', description: 'User password' })
+  @ApiProperty({
+    example: '$2b$04$pCp1H71sX7RPcs1qR7tZK.AZtrSw1OK5idpHsShgBvORLQtNXvsLC',
+    description: 'User password',
+  })
   @Column({ nullable: false })
-  password: string;
+  passwordHash: string;
+
+  @ApiProperty({
+    example: '$2b$04$pCp1H71sX7RPcs1qR7tZK.',
+    description: 'User password salt',
+  })
+  @Column({ nullable: false })
+  passwordSalt: string;
 
   @ApiProperty({
     example: true,
@@ -33,4 +51,7 @@ export class User extends AbstractEntity {
   @ManyToMany(() => Role, (role) => role.users)
   @JoinTable({ name: 'user_role' })
   roles: Role[];
+
+  @OneToMany(() => RefreshToken, (refreshToken) => refreshToken.user)
+  refreshTokens: RefreshToken[];
 }

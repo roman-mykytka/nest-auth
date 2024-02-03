@@ -1,3 +1,6 @@
+import { ValueOf } from '@core/types/value-of.type';
+import { Role } from '@modules/role/enums/role.enum';
+
 export class CreateRoleDto {
-  readonly name: string;
+  name: ValueOf<typeof Role>;
 }

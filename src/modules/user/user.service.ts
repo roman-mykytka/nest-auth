@@ -1,35 +1,57 @@
-import { Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
+import { Transactional } from 'typeorm-transactional';
+import { ConflictException, Injectable } from '@nestjs/common';
+import { EncryptService } from '@shared/services/encrypt.service';
+import { UserRepository } from './repositories/user.repository';
+import { EnvironmentService } from '@shared/services/environment.service';
+import { RoleService } from '@modules/role/role.service';
+import { Role } from '@modules/role/enums/role.enum';
+import { UserExceptionsMessage } from '@modules/user/enums/enums';
+import { CreateUserRequestDto } from './dto/create-user-request.dto';
+import { User } from '@modules/user/entities/user.entity';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private readonly usersRepository: UserRepository,
+    private readonly encryptService: EncryptService,
+    private readonly roleService: RoleService,
+    private readonly environmentService: EnvironmentService,
   ) {}
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+
+  @Transactional()
+  public async create(createUserDto: CreateUserRequestDto): Promise<User> {
+    const { firstName, lastName, email, password } = createUserDto;
+    const existedUser = await this.findByEmail(email);
+
+    if (existedUser) {
+      throw new ConflictException(UserExceptionsMessage.EMAIL_IS_ALREADY_TAKEN);
+    }
+
+    const passwordSalt = await this.encryptService.generateSalt(
+      this.environmentService.userPasswordSaltRounds,
+    );
+
+    const passwordHash = await this.encryptService.encrypt(
+      password,
+      passwordSalt,
+    );
+
+    const createdUser = await this.usersRepository.createUser({
+      firstName,
+      lastName,
+      email,
+      passwordSalt,
+      passwordHash,
+      isActive: false,
+    });
+
+    const userRole = await this.roleService.findByName(Role.USER);
+    createdUser.roles = [userRole];
+
+    return await this.usersRepository.saveUser(createdUser);
   }
 
-  findAll() {
-    return `This action returns all user`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  public async findByEmail(email: string): Promise<User | null> {
+    return await this.usersRepository.findByEmail(email);
   }
 }
