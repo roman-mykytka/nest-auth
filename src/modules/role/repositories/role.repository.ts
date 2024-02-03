@@ -13,4 +13,8 @@ export class RoleRepository extends Repository<Role> {
     const newRole = this.create(createRoleDto);
     return this.save(newRole);
   }
+
+  public async getByName(name: string): Promise<Role> {
+    return this.findOneBy({ name });
+  }
 }

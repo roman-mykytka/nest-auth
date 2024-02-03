@@ -13,6 +13,22 @@ const EnvironmentValidationMessage = {
   DB_PASSWORD_REQUIRED: '{{#label}}: Database password is required',
   DB_NAME_STRING: '{{#label}}: Database name must be a string',
   DB_NAME_REQUIRED: '{{#label}}: Database name is required',
+  USER_PASSWORD_SALT_ROUNDS_NUMBER:
+    '{{#label}}: Password salt rounds must be a number',
+  USER_PASSWORD_SALT_ROUNDS_REQUIRED:
+    '{{#label}}: Password salt rounds is required',
+  USER_PASSWORD_SALT_ROUNDS_MIN:
+    '{{#label}}: Password salt rounds must be greater than or equal to 3',
+  JWT_ACCESS_SECRET_STRING:
+    '{{#label}}: JWT access secret key must be a string',
+  JWT_ACCESS_SECRET_REQUIRED: '{{#label}}: JWT access secret key is required',
+  JWT_REFRESH_SECRET_STRING:
+    '{{#label}}: JWT refresh secret key must be a string',
+  JWT_REFRESH_SECRET_REQUIRED: '{{#label}}: JWT refresh secret key is required',
+  JWT_ACCESS_EXPIRES_IN_REQUIRED:
+    '{{#label}}: JWT access expires in is required',
+  JWT_REFRESH_EXPIRES_IN_REQUIRED:
+    '{{#label}}: JWT access expires in is required',
 };
 
 export { EnvironmentValidationMessage };
