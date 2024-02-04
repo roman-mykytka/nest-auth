@@ -9,12 +9,16 @@ export class RefreshTokenRepository extends Repository<RefreshToken> {
     super(RefreshToken, dataSource.createEntityManager());
   }
 
-  async saveRefreshToken(
+  async saveToken(
     token: string,
     expires: Date,
     user: User,
   ): Promise<RefreshToken> {
     const refreshToken = this.create({ token, expires, user });
     return this.save(refreshToken);
+  }
+
+  async deleteToken(token: string): Promise<void> {
+    await this.delete({ token });
   }
 }

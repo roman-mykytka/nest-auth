@@ -1,10 +1,13 @@
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import {
   Body,
   Controller,
+  Get,
   HttpStatus,
   Post,
+  Req,
   Res,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -15,6 +18,7 @@ import { AuthApiPath } from '@modules/auth/enums/auth-api-path';
 import { UserSignInRequestDto } from '@modules/auth/dto/user-sign-in-request.dto';
 import { UserSignInResponseDto } from '@modules/auth/dto/user-sign-in-response.dto';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard } from '@core/guards/jwt-auth.guard';
 
 @Controller(AuthApiPath.ROOT)
 @ApiTags('Auth')
@@ -40,5 +44,16 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ): Promise<UserSignInResponseDto> {
     return await this.authService.signIn(userSignInDto, res);
+  }
+
+  @ApiOperation({ summary: 'Logout' })
+  @ApiResponse({ status: HttpStatus.OK })
+  @UseGuards(JwtAuthGuard)
+  @Get(AuthApiPath.LOGOUT)
+  public async logout(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<void> {
+    return await this.authService.logout(req, res);
   }
 }

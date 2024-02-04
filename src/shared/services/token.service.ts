@@ -31,11 +31,15 @@ export class TokenService {
     });
   }
 
-  public decodeAccessToken<T>(token: string): Promise<JwtPayload & T> {
-    return this.jwtService.verifyAsync(token);
+  public async decodeAccessToken<T>(token: string): Promise<JwtPayload & T> {
+    return await this.jwtService.verifyAsync(token, {
+      secret: this.environmentService.accessTokenSetting.secretKey,
+    });
   }
 
-  public decodeRefreshToken<T>(token: string): Promise<JwtPayload & T> {
-    return this.jwtService.verifyAsync(token);
+  public async decodeRefreshToken<T>(token: string): Promise<JwtPayload & T> {
+    return await this.jwtService.verifyAsync(token, {
+      secret: this.environmentService.refreshTokenSetting.secretKey,
+    });
   }
 }
