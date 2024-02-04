@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { Transactional } from 'typeorm-transactional';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '@modules/user/user.service';
@@ -12,7 +12,7 @@ import { User } from '@modules/user/entities/user.entity';
 import { UserSignInRequestDto } from '@modules/auth/dto/user-sign-in-request.dto';
 import { UserSignInResponseDto } from '@modules/auth/dto/user-sign-in-response.dto';
 import { EncryptService } from '@shared/services/encrypt.service';
-import { UnauthorizedExceptionMessage } from '@modules/auth/enums/unauthorized-exception-message.enum';
+import { UnauthorizedExceptionMessage } from '@core/enums/unauthorized-exception-message.enum';
 
 @Injectable()
 export class AuthService {
@@ -86,11 +86,7 @@ export class AuthService {
       httpOnly: true,
     });
 
-    await this.refreshTokenRepository.saveRefreshToken(
-      refreshToken,
-      expires,
-      user,
-    );
+    await this.refreshTokenRepository.saveToken(refreshToken, expires, user);
 
     return accessToken;
   }
@@ -109,5 +105,11 @@ export class AuthService {
       },
       accessToken,
     };
+  }
+
+  async logout(req: Request, res: Response): Promise<void> {
+    const { refreshToken } = req.cookies;
+    await this.refreshTokenRepository.deleteToken(refreshToken);
+    res.clearCookie('refreshToken');
   }
 }
