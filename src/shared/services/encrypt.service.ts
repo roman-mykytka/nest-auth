@@ -11,15 +11,11 @@ export class EncryptService {
     return hash(str, salt);
   }
 
-  public async compare({
-    data,
-    salt,
-    strHash,
-  }: {
-    data: string;
-    salt: string;
-    strHash: string;
-  }): Promise<boolean> {
+  public async compare(
+    data: string,
+    salt: string,
+    strHash: string,
+  ): Promise<boolean> {
     const hash = await this.encrypt(data, salt);
 
     return hash === strHash;

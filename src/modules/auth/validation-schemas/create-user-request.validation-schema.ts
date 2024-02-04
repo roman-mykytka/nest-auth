@@ -1,9 +1,9 @@
 import * as Joi from 'joi';
-import { CreateUserRequestDto } from '@modules/user/dto/create-user-request.dto';
+import { UserSignUpRequestDto } from '@modules/auth/dto/user-sign-up-request.dto';
 import { UserValidationMessage } from '@modules/auth/enums/user-validation-message.enum';
 import { UserValidationRule } from '@modules/auth/enums/user-validation-rule.enum';
 
-const createUserValidationSchema = Joi.object<CreateUserRequestDto, true>({
+const createUserValidationSchema = Joi.object<UserSignUpRequestDto, true>({
   firstName: Joi.string()
     .required()
     .pattern(UserValidationRule.FIRST_NAME_REGEX)

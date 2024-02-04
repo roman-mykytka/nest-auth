@@ -1,15 +1,14 @@
 import { Injectable, BadRequestException, PipeTransform } from '@nestjs/common';
-import { CreateUserRequestDto } from '@modules/user/dto/create-user-request.dto';
+import { UserSignUpRequestDto } from '@modules/auth/dto/user-sign-up-request.dto';
 import { createUserValidationSchema } from '@modules/auth/validation-schemas/create-user-request.validation-schema';
 
 @Injectable()
-export class CreateUserRequestDtoValidatePipe
-  implements PipeTransform<CreateUserRequestDto>
+export class UserSignUpRequestDtoValidatePipe
+  implements PipeTransform<UserSignUpRequestDto>
 {
-  transform(value: CreateUserRequestDto): CreateUserRequestDto {
+  transform(value: UserSignUpRequestDto): UserSignUpRequestDto {
     const result = createUserValidationSchema.validate(value);
     if (result.error) {
-      console.log(result.error);
       const errorMessages = result.error.details
         .map((d: { message: string }) => d.message)
         .join();
