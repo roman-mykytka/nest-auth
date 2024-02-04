@@ -6,7 +6,7 @@ import { EnvironmentService } from '@shared/services/environment.service';
 import { RoleService } from '@modules/role/role.service';
 import { Role } from '@modules/role/enums/role.enum';
 import { UserExceptionsMessage } from '@modules/user/enums/enums';
-import { CreateUserRequestDto } from './dto/create-user-request.dto';
+import { UserSignUpRequestDto } from '../auth/dto/user-sign-up-request.dto';
 import { User } from '@modules/user/entities/user.entity';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class UserService {
   ) {}
 
   @Transactional()
-  public async create(createUserDto: CreateUserRequestDto): Promise<User> {
+  public async create(createUserDto: UserSignUpRequestDto): Promise<User> {
     const { firstName, lastName, email, password } = createUserDto;
     const existedUser = await this.findByEmail(email);
 
