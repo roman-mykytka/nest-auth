@@ -2,13 +2,14 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
+import { ScheduleModule } from '@nestjs/schedule';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
+
 import {
   configuration,
   validationSchema,
 } from '@/config/environment/environment';
-
 import { EnvironmentService } from '@shared/services/environment.service';
 import { SharedModule } from '@shared/shared.module';
 import { UserModule } from '@/modules/user/user.module';
@@ -17,6 +18,7 @@ import { AuthModule } from '@modules/auth/auth.module';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
