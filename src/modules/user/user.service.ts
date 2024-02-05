@@ -8,6 +8,7 @@ import { Role } from '@modules/role/enums/role.enum';
 import { UserExceptionsMessage } from '@modules/user/enums/enums';
 import { UserSignUpRequestDto } from '../auth/dto/user-sign-up-request.dto';
 import { User } from '@modules/user/entities/user.entity';
+import { UserResponseDto } from '@modules/user/dto/user-response.dto';
 
 @Injectable()
 export class UserService {
@@ -57,5 +58,21 @@ export class UserService {
 
   public async findById(id: string): Promise<User | null> {
     return await this.usersRepository.findById(id);
+  }
+
+  async getAll(): Promise<UserResponseDto[]> {
+    const users = await this.usersRepository.getAll();
+
+    return users.map(this.mapToUserResponseDto);
+  }
+
+  private mapToUserResponseDto(user: User): UserResponseDto {
+    return {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      roles: user.roles.map((role) => role.name),
+    };
   }
 }

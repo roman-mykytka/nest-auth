@@ -23,4 +23,8 @@ export class UserRepository extends Repository<User> {
   public async findById(id: string): Promise<User | null> {
     return this.findOne({ where: { id }, relations: ['roles'] });
   }
+
+  public async getAll(): Promise<User[]> {
+    return this.find({ relations: ['roles'] });
+  }
 }
