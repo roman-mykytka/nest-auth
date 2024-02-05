@@ -45,8 +45,8 @@ export class JwtAuthGuard implements CanActivate {
   }
 
   private extractAccessToken(req: any): string | undefined {
-    const authorizationHeader = req.headers.authorization;
-    return authorizationHeader?.split(' ')[1];
+    const [type, accessToken] = req.headers.authorization?.split(' ') ?? [];
+    return type === 'Bearer' ? accessToken : undefined;
   }
 
   private async getUserIdFromAccessToken(accessToken: string): Promise<string> {
