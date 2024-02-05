@@ -17,8 +17,9 @@ import { UserSignUpRequestDtoValidatePipe } from '@modules/auth/pipes/user-sign-
 import { AuthApiPath } from '@modules/auth/enums/auth-api-path';
 import { UserSignInRequestDto } from '@modules/auth/dto/user-sign-in-request.dto';
 import { UserSignInResponseDto } from '@modules/auth/dto/user-sign-in-response.dto';
-import { AuthService } from './auth.service';
 import { JwtAuthGuard } from '@core/guards/jwt-auth.guard';
+import { RefreshTokenGuard } from '@core/guards/refresh-auth.guard';
+import { AuthService } from './auth.service';
 
 @Controller(AuthApiPath.ROOT)
 @ApiTags('Auth')
@@ -55,5 +56,16 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ): Promise<void> {
     return await this.authService.logout(req, res);
+  }
+
+  @ApiOperation({ summary: 'Refresh' })
+  @ApiResponse({ status: HttpStatus.OK, type: UserSignInResponseDto })
+  @UseGuards(RefreshTokenGuard)
+  @Get(AuthApiPath.REFRESH)
+  public async refresh(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<UserSignInResponseDto> {
+    return await this.authService.refresh(req, res);
   }
 }

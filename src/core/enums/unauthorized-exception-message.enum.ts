@@ -4,6 +4,8 @@ const UnauthorizedExceptionMessage = {
   PASSWORD_IS_INCORRECT: 'Password is incorrect',
   USER_IS_NOT_AUTHORIZED: 'User is not authorized',
   INVALID_ACCESS_TOKEN: 'Invalid access token',
+  REFRESH_TOKEN_MISSING: 'Refresh token missing',
+  INVALID_REFRESH_TOKEN: 'Invalid refresh token',
 } as const;
 
 export { UnauthorizedExceptionMessage };
