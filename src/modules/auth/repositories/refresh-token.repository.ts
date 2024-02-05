@@ -18,6 +18,10 @@ export class RefreshTokenRepository extends Repository<RefreshToken> {
     return this.save(refreshToken);
   }
 
+  async findByToken(token: string): Promise<RefreshToken | null> {
+    return await this.findOneBy({ token });
+  }
+
   async deleteToken(token: string): Promise<void> {
     await this.delete({ token });
   }

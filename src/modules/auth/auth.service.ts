@@ -67,6 +67,28 @@ export class AuthService {
     return this.mapToAuthUserResponseDto(user, accessToken);
   }
 
+  async logout(req: Request, res: Response): Promise<void> {
+    const { refreshToken } = req.cookies;
+    await this.refreshTokenRepository.deleteToken(refreshToken);
+    res.clearCookie('refreshToken');
+  }
+
+  async refresh(req: Request, res: Response) {
+    const { refreshToken } = req.cookies;
+    const { userId } = await this.tokenService.decodeRefreshToken(refreshToken);
+    const user = await this.userService.findById(userId);
+
+    if (!user) {
+      throw new UnauthorizedException(
+        UnauthorizedExceptionMessage.USER_NOT_FOUND,
+      );
+    }
+
+    const accessToken = await this.updateAuthTokens(user, res);
+
+    return this.mapToAuthUserResponseDto(user, accessToken);
+  }
+
   private async updateAuthTokens(user: User, res: Response): Promise<string> {
     const accessToken = await this.tokenService.getAccessToken({
       userId: user.id,
@@ -105,11 +127,5 @@ export class AuthService {
       },
       accessToken,
     };
-  }
-
-  async logout(req: Request, res: Response): Promise<void> {
-    const { refreshToken } = req.cookies;
-    await this.refreshTokenRepository.deleteToken(refreshToken);
-    res.clearCookie('refreshToken');
   }
 }
