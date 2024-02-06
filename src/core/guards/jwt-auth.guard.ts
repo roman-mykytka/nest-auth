@@ -4,7 +4,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { TokenService } from '@shared/services/token.service';
+import { TokenService } from '@shared/services/services';
 import { UserService } from '@modules/user/user.service';
 import { UnauthorizedExceptionMessage } from '@core/enums/enums';
 

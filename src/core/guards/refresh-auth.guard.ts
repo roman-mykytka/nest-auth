@@ -4,10 +4,10 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { TokenService } from '@shared/services/token.service';
-import { RefreshTokenRepository } from '@modules/auth/repositories/refresh-token.repository';
-import { UnauthorizedExceptionMessage } from '@core/enums/enums';
 import { UserService } from '@modules/user/user.service';
+import { TokenService } from '@shared/services/services';
+import { UnauthorizedExceptionMessage } from '@core/enums/enums';
+import { RefreshTokenRepository } from '@modules/auth/repositories/repositories';
 
 @Injectable()
 export class RefreshTokenGuard implements CanActivate {

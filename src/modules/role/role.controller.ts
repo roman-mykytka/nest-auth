@@ -1,11 +1,11 @@
 import { Body, Controller, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Roles } from '@core/decorators/decorators';
-import { Role as RoleEntity } from '@modules/role/entities/role.entity';
+import { Role as RoleEntity } from '@modules/role/entities/entities';
 import { JwtAuthGuard, RolesGuard } from '@core/guards/guards';
 import { Role, RoleApiPath } from '@modules/role/enums/enums';
-import { RoleService } from './role.service';
-import { CreateRoleDto } from './dto/create-role.dto';
+import { CreateRoleDto } from '@modules/role/dto/dto';
+import { RoleService } from '@modules/role/role.service';
 
 @Controller(RoleApiPath.ROOT)
 export class RoleController {

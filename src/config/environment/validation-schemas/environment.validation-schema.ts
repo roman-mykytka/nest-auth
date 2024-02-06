@@ -1,5 +1,6 @@
 import * as Joi from 'joi';
-import { EnvironmentValidationMessage } from '../enums/enums';
+import { EnvironmentValidationMessage } from '@config/environment/enums/enums';
+
 const environmentValidationSchema = Joi.object({
   NODE_ENV: Joi.string()
     .required()
