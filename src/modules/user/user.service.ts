@@ -1,14 +1,13 @@
 import { Transactional } from 'typeorm-transactional';
 import { ConflictException, Injectable } from '@nestjs/common';
-import { EncryptService } from '@shared/services/encrypt.service';
-import { UserRepository } from './repositories/user.repository';
-import { EnvironmentService } from '@shared/services/environment.service';
+import { EncryptService, EnvironmentService } from '@shared/services/services';
 import { RoleService } from '@modules/role/role.service';
 import { Role } from '@modules/role/enums/role.enum';
 import { UserExceptionsMessage } from '@modules/user/enums/enums';
-import { UserSignUpRequestDto } from '../auth/dto/user-sign-up-request.dto';
-import { User } from '@modules/user/entities/user.entity';
-import { UserResponseDto } from '@modules/user/dto/user-response.dto';
+import { UserSignUpRequestDto } from '@modules/auth/dto/dto';
+import { User } from '@modules/user/entities/entities';
+import { UserResponseDto } from '@modules/user/dto/dto';
+import { UserRepository } from './repositories/user.repository';
 
 @Injectable()
 export class UserService {

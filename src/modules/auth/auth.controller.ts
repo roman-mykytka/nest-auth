@@ -11,17 +11,18 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserSignUpRequestDto } from '@modules/auth/dto/user-sign-up-request.dto';
-import { UserSignUpResponseDto } from '@modules/auth/dto/user-sign-up-response.dto';
-import { UserSignUpRequestDtoValidatePipe } from '@modules/auth/pipes/user-sign-up-request-dto-validate.pipe';
-import { AuthApiPath } from '@modules/auth/enums/auth-api-path';
-import { UserSignInRequestDto } from '@modules/auth/dto/user-sign-in-request.dto';
-import { UserSignInResponseDto } from '@modules/auth/dto/user-sign-in-response.dto';
-import { JwtAuthGuard } from '@core/guards/jwt-auth.guard';
-import { RefreshTokenGuard } from '@core/guards/refresh-auth.guard';
-import { AuthService } from './auth.service';
+import {
+  UserSignUpRequestDto,
+  UserSignInResponseDto,
+  UserSignUpResponseDto,
+  UserSignInRequestDto,
+} from '@modules/auth/dto/dto';
+import { AuthApiPathEnum } from '@modules/auth/enums/enums';
+import { UserSignUpRequestDtoValidatePipe } from '@modules/auth/pipes/pipes';
+import { JwtAuthGuard, RefreshTokenGuard } from '@core/guards/guards';
+import { AuthService } from '@modules/auth/auth.service';
 
-@Controller(AuthApiPath.ROOT)
+@Controller(AuthApiPathEnum.ROOT)
 @ApiTags('Auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -29,7 +30,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Sign up' })
   @ApiResponse({ status: HttpStatus.CREATED, type: UserSignUpResponseDto })
   @UsePipes(new UserSignUpRequestDtoValidatePipe())
-  @Post(AuthApiPath.SIGN_UP)
+  @Post(AuthApiPathEnum.SIGN_UP)
   public async signUp(
     @Body() userSignUpDto: UserSignUpRequestDto,
     @Res({ passthrough: true }) res: Response,
@@ -39,7 +40,7 @@ export class AuthController {
 
   @ApiOperation({ summary: 'Sign in' })
   @ApiResponse({ status: HttpStatus.OK, type: UserSignInResponseDto })
-  @Post(AuthApiPath.SIGN_IN)
+  @Post(AuthApiPathEnum.SIGN_IN)
   public async signIn(
     @Body() userSignInDto: UserSignInRequestDto,
     @Res({ passthrough: true }) res: Response,
@@ -50,7 +51,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Logout' })
   @ApiResponse({ status: HttpStatus.OK })
   @UseGuards(JwtAuthGuard)
-  @Get(AuthApiPath.LOGOUT)
+  @Get(AuthApiPathEnum.LOGOUT)
   public async logout(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
@@ -61,7 +62,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Refresh' })
   @ApiResponse({ status: HttpStatus.OK, type: UserSignInResponseDto })
   @UseGuards(RefreshTokenGuard)
-  @Get(AuthApiPath.REFRESH)
+  @Get(AuthApiPathEnum.REFRESH)
   public async refresh(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,

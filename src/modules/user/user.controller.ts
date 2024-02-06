@@ -1,7 +1,7 @@
 import { Controller, Get, HttpStatus, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserApiPath } from '@modules/user/enums/enums';
-import { UserResponseDto } from '@modules/user/dto/user-response.dto';
+import { UserResponseDto } from '@modules/user/dto/dto';
 import { Role } from '@modules/role/enums/enums';
 import { Roles } from '@core/decorators/decorators';
 import { JwtAuthGuard, RolesGuard } from '@core/guards/guards';

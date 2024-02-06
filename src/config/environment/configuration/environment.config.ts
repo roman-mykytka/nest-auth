@@ -1,7 +1,7 @@
-import { NodeEnvironment } from '../enums/enums';
-import { Environment } from '@config/environment/types/types';
-import { ValueOf } from '@core/types/value-of.type';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+import { NodeEnvironment } from '@config/environment/enums/enums';
+import { Environment } from '@config/environment/types/types';
+import { ValueOf } from '@core/types/types';
 
 const environmentConfig = (): Environment => {
   return {
